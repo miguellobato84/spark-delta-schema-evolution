@@ -1,7 +1,7 @@
-Test-case-1
-Source (old schema): STRING
-Target (new schema): STRUCT
-Result: New field will be stored as json in a string type
+# Test-case-1
+* **Source** (old schema): STRING
+* **Target** (new schema): STRUCT
+* **Result**: New field will be stored as json in a string type
 
 The execution log for the built-in schema merge is as follows:
 ```
@@ -64,10 +64,10 @@ root
 
 Yeah, it is casting a struct into a string, but we consider that better than a failed pipeline.
 
-Test-case-2
-Source (old schema): STRUCT
-Target (new schema): STRING
-Result: function will throw an exception indicating this cast is not possible. An evolution of this could be map the new function to another column
+# Test-case-2
+* **Source** (old schema): STRUCT
+* **Target** (new schema): STRING
+* **Result**: function will throw an exception indicating this cast is not possible
 
 The execution log for the built-in schema merge is as follows:
 ```
@@ -98,10 +98,10 @@ Schema evolution - RECURSIVE a2
 java.lang.Exception: Unable to perform this type of cast
 ```
 
-Test-case-3
-Source (old schema): STRING
-Target (new schema): NUMBER
-Result: New field will be stored as string type
+# Test-case-3
+* **Source** (old schema): STRING
+* **Target** (new schema): NUMBER
+* **Result**: New field will be stored as string type
 The execution log for the built-in schema merge is as follows:
 ```
 Source schema
@@ -157,10 +157,10 @@ root
 +---+--------+
 ```
 
-Test-case-4
-Source (old schema): STRING
-Target (new schema): NUMBER
-Result: function will throw an exception indicating this cast is not possible. An evolution of this could be map the new function to another column
+# Test-case-4
+* **Source** (old schema): STRING
+* **Target** (new schema): NUMBER
+* **Result**: function will throw an exception indicating this cast is not possible. An evolution of this could be map the new function to another column
 
 The execution log for the built-in schema merge is as follows:
 ```
