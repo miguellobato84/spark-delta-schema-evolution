@@ -8,35 +8,35 @@ val deltapath = "delta"
   def schemaEvolution(oldSchema: StructType, newSchema: StructType, level: Int = 0): StructType = {
 
     val tab = List.fill(level)("  ").mkString
-    val result = new StructType()
+    var result = new StructType()
 
     //Add new cols
     val newSchemaNewCols = newSchema.names.diff(oldSchema.names).map(t => newSchema.find(x => x.name == t).get)
-    newSchemaNewCols.foreach(result.add(_))
+    newSchemaNewCols.foreach(t => result = result.add(t))
     newSchemaNewCols.foreach(t => println(s"${tab}Schema evolution - NEW ${t.name}"))
 
     for (oldCol <- oldSchema.fields) {
       val newColStruct = newSchema.find(t => t.name == oldCol.name)
       if (newColStruct.isEmpty) {
         println(s"${tab}Schema evolution - OLD ${oldCol.name}")
-        result.add(oldCol)
+        result = result.add(oldCol)
       } else {
         val newCol = newColStruct.get
         if (oldCol.dataType.isInstanceOf[StructType] && newCol.dataType.isInstanceOf[StructType]) {
           println(s"${tab}Schema evolution - RECURSIVE ${oldCol.name}")
-          val newSchema = schemaEvolution(oldCol.dataType.asInstanceOf[StructType], newCol.dataType.asInstanceOf[StructType], level + 1)
-          result.add(StructField(name = oldCol.name, dataType = newSchema.asInstanceOf[DataType]))
-        } else if (oldCol.dataType.isInstanceOf[StringType]) {
-          println(s"${tab}Schema evolution - FORCE CAST ${newCol.name} (${newCol.dataType}) -> ${oldCol.dataType}")
-          result.add(oldCol)
+          val recursiveResult = schemaEvolution(oldCol.dataType.asInstanceOf[StructType], newCol.dataType.asInstanceOf[StructType], level + 1)
+          result = result.add(StructField(name = oldCol.name, dataType = recursiveResult.asInstanceOf[DataType]))
+        } else if (oldCol.dataType.isInstanceOf[StringType] || oldCol.dataType == newCol.dataType) {
+          println(s"${tab}Schema evolution - CAST ${newCol.name} (${newCol.dataType}) -> ${oldCol.dataType}")
+          result = result.add(oldCol)
         } else {
-          println(s"${tab}Schema evolution - FORCE CAST ${newCol.name} (${newCol.dataType}) -> ${oldCol.dataType}")
+          println(s"${tab}Schema evolution - CAST ERROR ${newCol.name} (${newCol.dataType}) -> ${oldCol.dataType}")
           throw new Exception("Unable to perform this type of cast")
         }
       }
     }
 
-    oldSchema
+    result
   }
 
 //Read schemas and custom evolution

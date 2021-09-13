@@ -188,3 +188,6 @@ Schema evolution - RECURSIVE a2
   Schema evolution - FORCE CAST a3 (StringType) -> LongType
 java.lang.Exception: Unable to perform this type of cast
 ```
+
+# Test-case-5
+In this case, some new fields are added. Delta will perform this evolution in its own, but we need to take care in our function also.
