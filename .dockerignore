@@ -1,0 +1,7 @@
+# Ignore everything
+**
+
+# Allow only these directories
+!src
+!project
+!build.sbt

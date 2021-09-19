@@ -1,9 +1,7 @@
-FROM python:3.7.3-stretch
-
-RUN apt-get update && apt-get -y install openjdk-8-jdk
-
-RUN pip install pyspark==3.1.1
+FROM hseeberger/scala-sbt:8u282_1.5.0_2.12.13
 
 COPY . /home
 
-CMD ["bash"]
+WORKDIR /home
+
+CMD ["sbt", "test"]
