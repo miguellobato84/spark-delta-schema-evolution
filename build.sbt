@@ -7,7 +7,7 @@ ThisBuild / organizationName := "miguellobato"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "etl-scala",
+    name := "spark-delta-schema-evolution",
     libraryDependencies += scalaTest % Test,
     libraryDependencies += sparkCore,
     libraryDependencies += sparkSQL,

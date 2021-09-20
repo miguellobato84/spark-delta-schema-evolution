@@ -1,44 +1,8 @@
 package com.miguellobato.delta_schema_evolution
 
-import org.apache.spark.sql.functions.{col, lit}
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, SparkSession}
 
 trait EtlDeltaWithSchemaMerge {
-
-  /**
-   * Retrieves the source schema
-   *
-   * @param spark
-   * @return
-   */
-  def getSourceSchema(spark: SparkSession): StructType = ???
-
-  /**
-   * Retrieves the target schema (current existing in data lake)
-   *
-   * @param spark
-   * @return
-   */
-  def getTargetSchema(spark: SparkSession): StructType = ???
-
-  /**
-   * Read source with a custom schema (as calculated by mergeSchema)
-   *
-   * @param spark
-   * @param schema
-   * @return
-   */
-  def read(spark: SparkSession, schema: StructType): DataFrame = ???
-
-  /**
-   * Save to target
-   *
-   * @param spark
-   * @param result
-   * @param schemaChanged Notify if schema has changed, so table should be recreated
-   */
-  def save(spark: SparkSession, result: DataFrame, schemaChanged: Boolean): Unit = ???
 
   /**
    *
