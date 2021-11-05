@@ -14,4 +14,5 @@ lazy val root = (project in file("."))
     libraryDependencies += sparkHive,
     libraryDependencies += deltaLake,
     libraryDependencies += scalaLogging,
+    libraryDependencies += "com.github.mrpowers" %% "spark-fast-tests" % "1.0.0" % "test"
   )
