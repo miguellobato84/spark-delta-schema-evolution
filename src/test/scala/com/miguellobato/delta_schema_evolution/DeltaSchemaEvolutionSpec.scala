@@ -6,8 +6,7 @@ import org.scalatest.matchers.should.Matchers
 
 class DeltaSchemaEvolutionSpec
   extends AnyFlatSpec
-    with Matchers
-    with EtlDeltaWithSchemaMerge {
+    with Matchers {
 
   "DeltaSchemaEvolution" should "handle no schema evolution" in {
     val sourceSchema = new StructType()
@@ -19,7 +18,7 @@ class DeltaSchemaEvolutionSpec
     val expectedSchema = new StructType()
       .add(StructField(name = "target", dataType = StringType))
 
-    mergeSchema(targetSchema, sourceSchema) should be(expectedSchema, false)
+    SchemaManagement.mergeschema(targetSchema, sourceSchema) should be(expectedSchema, false)
   }
 
   it should "add a new field" in {
@@ -33,7 +32,7 @@ class DeltaSchemaEvolutionSpec
       .add(StructField(name = "source", dataType = StringType))
       .add(StructField(name = "target", dataType = StringType))
 
-    mergeSchema(targetSchema, sourceSchema) should be(expectedSchema, true)
+    SchemaManagement.mergeschema(targetSchema, sourceSchema) should be(expectedSchema, true)
   }
 
   it should "add a new field in struct" in {
@@ -53,7 +52,7 @@ class DeltaSchemaEvolutionSpec
         StructField(name = "target_field", dataType = StringType)
       ))))
 
-    mergeSchema(targetSchema, sourceSchema) should be(expectedSchema, true)
+    SchemaManagement.mergeschema(targetSchema, sourceSchema) should be(expectedSchema, true)
   }
 
   it should "add a new field in array of struct" in {
@@ -73,7 +72,7 @@ class DeltaSchemaEvolutionSpec
         StructField(name = "target_field", dataType = StringType)
       )))))
 
-    mergeSchema(targetSchema, sourceSchema) should be(expectedSchema, true)
+    SchemaManagement.mergeschema(targetSchema, sourceSchema) should be(expectedSchema, true)
   }
 
   it should "handle fallback cast to string" in {
@@ -86,7 +85,7 @@ class DeltaSchemaEvolutionSpec
     val expectedSchema = new StructType()
       .add(StructField(name = "target", dataType = StringType))
 
-    mergeSchema(targetSchema, sourceSchema) should be(expectedSchema, false)
+    SchemaManagement.mergeschema(targetSchema, sourceSchema) should be(expectedSchema, false)
   }
 
   it should "handle fallback cast to string (in array)" in {
@@ -99,7 +98,7 @@ class DeltaSchemaEvolutionSpec
     val expectedSchema = new StructType()
       .add(StructField(name = "target", dataType = ArrayType(StringType)))
 
-    mergeSchema(targetSchema, sourceSchema) should be(expectedSchema, false)
+    SchemaManagement.mergeschema(targetSchema, sourceSchema) should be(expectedSchema, false)
   }
 
   it should "respect the original type" in {
@@ -112,7 +111,7 @@ class DeltaSchemaEvolutionSpec
     val expectedSchema = new StructType()
       .add(StructField(name = "target", dataType = LongType))
 
-    mergeSchema(targetSchema, sourceSchema) should be(expectedSchema, false)
+    SchemaManagement.mergeschema(targetSchema, sourceSchema) should be(expectedSchema, false)
   }
 
   it should "respect the original type (in array)" in {
@@ -125,6 +124,6 @@ class DeltaSchemaEvolutionSpec
     val expectedSchema = new StructType()
       .add(StructField(name = "target", dataType = ArrayType(LongType)))
 
-    mergeSchema(targetSchema, sourceSchema) should be(expectedSchema, false)
+    SchemaManagement.mergeschema(targetSchema, sourceSchema) should be(expectedSchema, false)
   }
 }
